@@ -126,8 +126,11 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
 
         // login end
 
-        Footer()
-
+        Box(modifier = Modifier
+            .fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter) {
+            Footer()
+        }
     }
 
 }
@@ -148,6 +151,26 @@ fun Header(){
 @Composable
 fun Footer(){
 
+    Column(modifier = Modifier
+            .padding(26.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Row {
+
+            Text("© 2023", color = colorResource(R.color.white), modifier = Modifier.padding(end = 8.dp))
+            Text("Godot Community", modifier = Modifier.clickable {  }, color = colorResource(R.color.white))
+        }
+
+        Spacer(modifier = Modifier.padding(16.dp))
+
+        Row {
+            Text("Privacy", modifier =  Modifier.clickable {  }, color = colorResource(R.color.white))
+            Text("-", color = colorResource(R.color.white))
+            Text("Terms", modifier = Modifier.clickable {  }, color = colorResource(R.color.white))
+            Text("-", color = colorResource(R.color.white))
+            Text("Contact", modifier = Modifier.clickable {  }, color = colorResource(R.color.white))
+        }
+    }
 }
 
 @Composable
