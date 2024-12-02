@@ -1,7 +1,9 @@
 package com.example.proyectologin.screen
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +23,7 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
@@ -29,7 +32,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -61,22 +66,20 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
 
         Header()
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            HorizontalDivider(modifier = Modifier.weight(1f).padding(end = 8.dp))
-            Image(painter = painterResource(R.drawable.godoticon), contentDescription = "Decoración con icono", modifier = Modifier.size(32.dp), alignment = Alignment.Center)
-            HorizontalDivider(modifier = Modifier.weight(1f).padding(start = 8.dp))
-        }
+        GodotDivider()
             // login start
 
         Column(modifier = Modifier.padding(6.dp)) {
             OutlinedTextField(
                 value = username,
                 onValueChange = { appViewModel.usernameUpdate(it) },
-                label = { Text("Usuario / Email") },
+                label = { Text("Usuario / Email", modifier = Modifier.background(color = Color.Transparent)) },
                 modifier = Modifier
                     .fillMaxWidth(),
-                colors = TextFieldDefaults.colors(
-                    colorResource(R.color.white)
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = colorResource(R.color.white),
+                    focusedLabelColor = Color.White,
+                    unfocusedContainerColor = colorResource(R.color.white)
                 )
             )
 
@@ -87,11 +90,15 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
             OutlinedTextField(
                 value = password,
                 onValueChange = { appViewModel.passwordUpdate(it) },
-                label = { Text("Contraseña") },
+                label = { Text("Contraseña",  modifier = Modifier.background(color = Color.Transparent)) },
                 modifier = Modifier
                     .fillMaxWidth(),
-                colors = TextFieldDefaults.colors(
-                    colorResource(R.color.white)
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor =  colorResource(R.color.white),
+                    focusedLabelColor = Color.White,
+                    unfocusedContainerColor = colorResource(R.color.white)
+
+
                 )
 
             )
@@ -123,8 +130,28 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
 
         }
 
+        Spacer(Modifier.padding(top = 16.dp))
 
+        HorizontalDivider(Modifier.padding(8.dp))
+
+        Text("¿Aún no tienes cuenta?", color = Color.White, modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp))
+
+        Button(
+            onClick = { navControlador.navigate(AppScreen.SecondScreen.route) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(1.dp, Color.White, RoundedCornerShape(8.dp)),
+            shape = RoundedCornerShape(8.dp), colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent
+            )
+        ) {
+             Text("Registrarse")
+        }
         // login end
+
+        Spacer(Modifier.padding(top = 16.dp))
+
+        HorizontalDivider(Modifier.padding(8.dp))
 
         Box(modifier = Modifier
             .fillMaxSize(),
@@ -132,7 +159,6 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
             Footer()
         }
     }
-
 }
 
 @Composable
@@ -187,5 +213,21 @@ fun CheckboxFun(text: String, isChecked: Boolean, onCheckedChange: (Boolean) -> 
             )
         )
         Text(text = text, modifier = Modifier.padding(start = 6.dp), fontWeight = FontWeight.Bold, color = colorResource(R.color.white))
+    }
+}
+
+@Composable
+fun GodotDivider(){
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        HorizontalDivider(modifier = Modifier.weight(1f).padding(end = 8.dp))
+
+        Image(
+            painter = painterResource(R.drawable.godoticon),
+            contentDescription = "Decoración con icono",
+            modifier = Modifier
+                .size(32.dp),
+            alignment = Alignment.Center)
+
+        HorizontalDivider(modifier = Modifier.weight(1f).padding(start = 8.dp))
     }
 }
