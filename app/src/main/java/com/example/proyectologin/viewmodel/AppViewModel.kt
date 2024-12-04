@@ -1,5 +1,6 @@
 package com.example.proyectologin.viewmodel
 
+import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,6 +17,8 @@ class AppViewModel: ViewModel() {
     private val _password = MutableStateFlow("")
     val password: StateFlow<String> = _password
 
+    private val _isChecked = MutableStateFlow(false)
+    val isChecked: StateFlow<Boolean> = _isChecked
 
     fun usernameUpdate(newUser: String){
         _username.update { newUser }
@@ -25,10 +28,16 @@ class AppViewModel: ViewModel() {
         _password.update { newPassword }
     }
 
+    private val _checkRememberUsername = MutableStateFlow(false)
+    val checkRememberUsername: StateFlow<Boolean> = _checkRememberUsername
+
     private val _checkRememberPass = MutableStateFlow(false)
     val checkRememberPass: StateFlow<Boolean> = _checkRememberPass
 
-    fun checkRememberPassUpdate(isChecked: Boolean){
-        _checkRememberPass.value = isChecked
+    fun checkRememberMe(){
+       _isChecked.value = !_isChecked.value
     }
+
+
+
 }

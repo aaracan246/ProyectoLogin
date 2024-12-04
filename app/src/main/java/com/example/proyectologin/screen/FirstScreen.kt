@@ -38,6 +38,7 @@ import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -52,23 +53,34 @@ fun FirstScreen(navControlador: NavController, appViewModel: AppViewModel){
 
 @Composable
 fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
+
+    // Credenciales para comprobar el login:
+    val validUsername = "Morri"
+    val validPassword = "1234"
+
+
+    // Estados para el ViewModel:
     val username by appViewModel.username.collectAsState()
     val password by appViewModel.password.collectAsState()
+    val isChecked by appViewModel.isChecked.collectAsState()
+
+    // Recordar al usuario:
+    val usernameRemember by appViewModel.checkRememberUsername.collectAsState()
     val passwdRemember by appViewModel.checkRememberPass.collectAsState()
 
 
 
     Column(modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 32.dp)
-                        .background(color = colorResource(R.color.fondo))) {
+        .fillMaxSize()
+        .padding(top = 32.dp)
+        .background(color = colorResource(R.color.fondo))) {
 
 
         Header()
 
         GodotDivider()
-            // login start
 
+        // login start
         Column(modifier = Modifier.padding(6.dp)) {
             OutlinedTextField(
                 value = username,
@@ -99,14 +111,17 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
                     unfocusedContainerColor = colorResource(R.color.white)
 
 
-                )
+
+                ),
+                visualTransformation = PasswordVisualTransformation()
 
             )
 
             Row {
                 CheckboxFun(
-                    text = "¿Recordarme?", passwdRemember
-                ) { appViewModel.checkRememberPassUpdate(it) }
+                    text = "¿Recordarme?",
+                    isChecked = isChecked,
+                ) { appViewModel.checkRememberMe() }
 
                 Box(
                     modifier = Modifier
@@ -121,7 +136,20 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
                 }
             }
             Button(
-                onClick = { navControlador.navigate(route = AppScreen.SecondScreen.route) },
+                onClick = {
+                    if (username == validUsername && password == validPassword ) {
+                        if (!isChecked){
+                            appViewModel.usernameUpdate("")
+                            appViewModel.passwordUpdate("")
+                        }
+
+                        navControlador.navigate(route = AppScreen.ThirdScreen.route)
+                    }
+                    else{
+                        appViewModel.usernameUpdate("")
+                        appViewModel.passwordUpdate("")
+                    }
+                          },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp)
             ) {
@@ -137,7 +165,7 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
         Text("¿Aún no tienes cuenta?", color = Color.White, modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp))
 
         Button(
-            onClick = { navControlador.navigate(AppScreen.SecondScreen.route) },
+            onClick = {  },
             modifier = Modifier
                 .fillMaxWidth()
                 .border(1.dp, Color.White, RoundedCornerShape(8.dp)),
@@ -146,6 +174,29 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
             )
         ) {
              Text("Registrarse")
+        }
+
+        Spacer(Modifier.padding(top = 16.dp))
+
+        HorizontalDivider(Modifier.padding(8.dp))
+
+        // acceso alternativo
+        Column(modifier = Modifier.fillMaxWidth()) {
+
+            Button(
+                onClick = { navControlador.navigate(AppScreen.SecondScreen.route) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp)
+                    .border(1.dp, Color.White, RoundedCornerShape(8.dp)),
+                shape = RoundedCornerShape(8.dp), colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent
+                )
+            ) {
+                Text("Acceso alternativo")
+            }
+        // acceso alternativo
+
         }
         // login end
 
@@ -219,7 +270,9 @@ fun CheckboxFun(text: String, isChecked: Boolean, onCheckedChange: (Boolean) -> 
 @Composable
 fun GodotDivider(){
     Row(verticalAlignment = Alignment.CenterVertically) {
-        HorizontalDivider(modifier = Modifier.weight(1f).padding(end = 8.dp))
+        HorizontalDivider(modifier = Modifier
+            .weight(1f)
+            .padding(end = 8.dp))
 
         Image(
             painter = painterResource(R.drawable.godoticon),
@@ -228,6 +281,8 @@ fun GodotDivider(){
                 .size(32.dp),
             alignment = Alignment.Center)
 
-        HorizontalDivider(modifier = Modifier.weight(1f).padding(start = 8.dp))
+        HorizontalDivider(modifier = Modifier
+            .weight(1f)
+            .padding(start = 8.dp))
     }
 }
