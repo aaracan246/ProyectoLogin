@@ -20,6 +20,9 @@ class AppViewModel: ViewModel() {
     private val _isChecked = MutableStateFlow(false)
     val isChecked: StateFlow<Boolean> = _isChecked
 
+    private val _isError = MutableStateFlow(false)
+    val isError: StateFlow<Boolean> = _isError
+
     fun usernameUpdate(newUser: String){
         _username.update { newUser }
     }
@@ -38,6 +41,9 @@ class AppViewModel: ViewModel() {
        _isChecked.value = !_isChecked.value
     }
 
+    fun changeErrorValue(state: Boolean){
+        _isError.value = state
+    }
 
 
 }

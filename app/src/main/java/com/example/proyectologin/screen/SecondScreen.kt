@@ -1,14 +1,17 @@
 package com.example.proyectologin.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -21,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.proyectologin.R
@@ -63,7 +67,16 @@ fun SecondBody(navControlador: NavController){
                     containerColor = Color.Transparent
                 )
             ) {
-                Text("Accede con Github")
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+
+
+                    Image(
+                        painter = painterResource(R.drawable.githublogo),
+                        "Github logo",
+                        modifier = Modifier.size(28.dp).padding(8.dp)
+                    )
+                    Text("Accede con Github")
+                }
             }
 
             Button(
@@ -76,7 +89,16 @@ fun SecondBody(navControlador: NavController){
                     containerColor = Color.Transparent
                 )
             ) {
-                Text("Accede con Twitter")
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+
+
+                    Image(
+                        painter = painterResource(R.drawable.twitterlogo),
+                        "Twitter logo",
+                        modifier = Modifier.size(28.dp).padding(8.dp)
+                    )
+                    Text("Accede con Twitter")
+                }
             }
 
             Button(
@@ -89,7 +111,16 @@ fun SecondBody(navControlador: NavController){
                     containerColor = Color.Transparent
                 )
             ) {
-                Text("Accede con Google")
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+
+
+                    Image(
+                        painter = painterResource(R.drawable.googlelogo),
+                        "Google logo",
+                        modifier = Modifier.size(28.dp).padding(8.dp)
+                    )
+                    Text("Accede con Google")
+                }
             }
 
             Button(
@@ -102,7 +133,16 @@ fun SecondBody(navControlador: NavController){
                     containerColor = Color.Transparent
                 )
             ) {
-                Text("Accede con auth0")
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+
+
+                    Image(
+                        painter = painterResource(R.drawable.authlogo),
+                        "Auth0 logo",
+                        modifier = Modifier.size(28.dp).padding(8.dp)
+                    )
+                    Text("Accede con Auth0")
+                }
             }
 
             Spacer(modifier = Modifier.padding(top = 16.dp))

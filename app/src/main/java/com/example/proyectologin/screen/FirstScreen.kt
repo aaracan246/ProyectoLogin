@@ -63,10 +63,7 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
     val username by appViewModel.username.collectAsState()
     val password by appViewModel.password.collectAsState()
     val isChecked by appViewModel.isChecked.collectAsState()
-
-    // Recordar al usuario:
-    val usernameRemember by appViewModel.checkRememberUsername.collectAsState()
-    val passwdRemember by appViewModel.checkRememberPass.collectAsState()
+    val isError by appViewModel.isError.collectAsState()
 
 
 
@@ -79,6 +76,10 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
         Header()
 
         GodotDivider()
+
+        if (isError){
+            ErrorAuthentication()
+        }
 
         // login start
         Column(modifier = Modifier.padding(6.dp)) {
@@ -141,13 +142,16 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
                         if (!isChecked){
                             appViewModel.usernameUpdate("")
                             appViewModel.passwordUpdate("")
-                        }
 
+                        }
+                        appViewModel.changeErrorValue(false)
                         navControlador.navigate(route = AppScreen.ThirdScreen.route)
+
                     }
                     else{
                         appViewModel.usernameUpdate("")
                         appViewModel.passwordUpdate("")
+                        appViewModel.changeErrorValue(true)
                     }
                           },
                 modifier = Modifier.fillMaxWidth(),
@@ -284,5 +288,12 @@ fun GodotDivider(){
         HorizontalDivider(modifier = Modifier
             .weight(1f)
             .padding(start = 8.dp))
+    }
+}
+
+@Composable
+fun ErrorAuthentication(){
+    Row {
+        Text("Los datos de autenticación son erróneos.", color = Color.Red, modifier = Modifier.padding(8.dp))
     }
 }
