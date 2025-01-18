@@ -18,6 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -153,6 +154,16 @@ fun SecondBody(navControlador: NavController){
                 Text("Volver a la pantalla anterior")
             }
 
+            Spacer(Modifier.padding(top = 16.dp))
+
+            HorizontalDivider(Modifier.padding(8.dp))
+
+            Box(modifier = Modifier
+                .fillMaxSize(),
+                contentAlignment = Alignment.BottomCenter) {
+                Footer()
+            }
         }
+
     }
 }

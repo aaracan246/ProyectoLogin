@@ -6,22 +6,22 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class AppViewModel: ViewModel() {
+open class AppViewModel: ViewModel() {
 
     // Aquí iban todos los estados y luego inyectamos el ViewModel en las distintas pantallas para hacer uso de los estados elevados
 
 
     private val _username = MutableStateFlow("") // MutableStateFlow -> Maneja estados mediante .value / Permite el uso de .collectAsState y se recompone inmediatamente cuando su valor cambia
-    val username: StateFlow<String> = _username
+    open val username: StateFlow<String> = _username
 
     private val _password = MutableStateFlow("")
-    val password: StateFlow<String> = _password
+    open val password: StateFlow<String> = _password
 
     private val _isChecked = MutableStateFlow(false)
-    val isChecked: StateFlow<Boolean> = _isChecked
+    open val isChecked: StateFlow<Boolean> = _isChecked
 
     private val _isError = MutableStateFlow(false)
-    val isError: StateFlow<Boolean> = _isError
+     open val isError: StateFlow<Boolean> = _isError
 
     fun usernameUpdate(newUser: String){
         _username.update { newUser }
