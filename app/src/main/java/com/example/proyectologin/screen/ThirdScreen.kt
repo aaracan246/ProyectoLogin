@@ -23,7 +23,7 @@ fun ThirdBody(navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
 
-        Text("¡Accediste con éxito!")
+        Text("¡Accediste con éxito! Aquí devolver token a lo mejor para mostrarlo")
 
         Button(onClick = { navController.popBackStack() }) {
             Text("Volver a la pantalla anterior")
