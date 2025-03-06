@@ -28,8 +28,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -45,14 +47,17 @@ import androidx.navigation.NavController
 import com.example.proyectologin.R
 import com.example.proyectologin.navigation.AppScreen
 import com.example.proyectologin.viewmodel.AppViewModel
+import com.example.proyectologin.viewmodel.LoginViewModel
+import kotlinx.coroutines.launch
+import kotlin.math.log
 
 @Composable
-fun FirstScreen(navControlador: NavController, appViewModel: AppViewModel){
-    LoginScreen(navControlador, appViewModel)
+fun FirstScreen(navControlador: NavController, appViewModel: AppViewModel, loginViewModel: LoginViewModel){
+    LoginScreen(navControlador, appViewModel, loginViewModel)
 }
 
 @Composable
-fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
+fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel, loginViewModel: LoginViewModel){
 
     // Credenciales para comprobar el login:
     val validUsername = "Morri"
@@ -64,8 +69,9 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
     val password by appViewModel.password.collectAsState()
     val isChecked by appViewModel.isChecked.collectAsState()
     val isError by appViewModel.isError.collectAsState()
+    val token = loginViewModel.token.value
 
-
+    val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -138,27 +144,19 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
             }
             Button(
                 onClick = {
-                    if (username == validUsername && password == validPassword ) {
-                        if (!isChecked){
-                            appViewModel.usernameUpdate("")
-                            appViewModel.passwordUpdate("")
-
-                        }
-                        appViewModel.changeErrorValue(false)
-                        navControlador.navigate(route = AppScreen.ThirdScreen.route)
-
+                    coroutineScope.launch {
+                        loginViewModel.login(username, password)
                     }
-                    else{
-                        appViewModel.usernameUpdate("")
-                        appViewModel.passwordUpdate("")
-                        appViewModel.changeErrorValue(true)
-                    }
-                          },
+                },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Text("Conectarse", fontWeight = FontWeight.Bold)
             }
+
+        }
+
+
 
         }
 
@@ -169,7 +167,7 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
         Text("¿Aún no tienes cuenta?", color = Color.White, modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp))
 
         Button(
-            onClick = {  },
+            onClick = { navControlador.navigate(AppScreen.FourthScreen.route) },
             modifier = Modifier
                 .fillMaxWidth()
                 .border(1.dp, Color.White, RoundedCornerShape(8.dp)),
@@ -213,8 +211,14 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel){
             contentAlignment = Alignment.BottomCenter) {
             Footer()
         }
+
+    LaunchedEffect(token) {
+        if (token.isNotEmpty()) {
+            navControlador.navigate(AppScreen.ThirdScreen.route)
+        }
     }
-}
+    }
+
 
 @Composable
 fun Header(){

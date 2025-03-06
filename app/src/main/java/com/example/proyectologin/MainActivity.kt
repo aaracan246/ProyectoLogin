@@ -4,17 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-//import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.proyectologin.api.ApiService
 import com.example.proyectologin.navigation.AppNavigation
 import com.example.proyectologin.ui.theme.ProyectoLoginTheme
 import com.example.proyectologin.viewmodel.AppViewModel
+import com.example.proyectologin.viewmodel.LoginViewModel
+import com.example.proyectologin.viewmodel.RegisterViewModel
+import com.example.proyectologin.viewmodel.TaskViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,8 +22,11 @@ class MainActivity : ComponentActivity() {
 
                 val navControlador = rememberNavController()
                 val appViewModel = AppViewModel()
+                val registerViewModel = RegisterViewModel()
+                val loginViewModel = LoginViewModel()
+                val taskViewModel = TaskViewModel()
 
-                AppNavigation(navControlador, appViewModel)
+                AppNavigation(navControlador, appViewModel, registerViewModel, loginViewModel, taskViewModel)
 
             }
         }

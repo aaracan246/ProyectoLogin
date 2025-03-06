@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.proyectologin.navigation.AppScreen
 
 
 @Composable
@@ -23,7 +24,21 @@ fun ThirdBody(navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
 
-        Text("¡Accediste con éxito!")
+        Button(
+            onClick = { navController.navigate(route = AppScreen.SixthScreen.route) }
+        ) { Text("Insertar tarea") }
+
+        Button(
+            onClick = { navController.navigate(route = AppScreen.FifthScreen.route) }
+        ) { Text("Completar tarea") }
+
+        Button(
+            onClick = { navController.navigate(route = AppScreen.FifthScreen.route) }
+        ) { Text("Ver todas las tareas") }
+
+        Button(
+            onClick = { navController.navigate(route = AppScreen.FifthScreen.route) }
+        ) { Text("Borrar una tarea") }
 
         Button(onClick = { navController.popBackStack() }) {
             Text("Volver a la pantalla anterior")
