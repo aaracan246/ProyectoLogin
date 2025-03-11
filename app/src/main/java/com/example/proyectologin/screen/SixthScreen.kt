@@ -1,6 +1,7 @@
 package com.example.proyectologin.screen
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -33,7 +33,6 @@ import com.example.proyectologin.R
 import com.example.proyectologin.api.API
 import com.example.proyectologin.api.ApiService
 import com.example.proyectologin.api.Tarea
-import com.example.proyectologin.navigation.AppScreen
 import com.example.proyectologin.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
 
@@ -98,7 +97,7 @@ fun TaskInsert(navController: NavController, loginViewModel: LoginViewModel) {
         // Botón de "Insertar tarea"
         Button(
             onClick = {
-                if (tareaTitle.value.isNotEmpty() && tareaDescription.value.isNotEmpty() && token.isNotEmpty()) {
+                if (tareaTitle.value.isNotEmpty() && tareaDescription.value.isNotEmpty() && token.isNotEmpty() && username.isNotEmpty()) {
                     isLoading.value = true
                     coroutineScope.launch {
                         insertTarea(tareaTitle.value, tareaDescription.value, username, token, context)
@@ -126,18 +125,28 @@ fun TaskInsert(navController: NavController, loginViewModel: LoginViewModel) {
 private suspend fun insertTarea(title: String, description: String, username: String, token: String, context: Context) {
     val apiService = API.instance.create(ApiService::class.java)
 
+
     val tarea = Tarea(
+        _id = null,
         titulo = title,
         desc = description,
         status = false,
         usuario = username
     )
 
-    val response = apiService.insertTarea(tarea)
+    try {
+        val response = apiService.insertTarea(token, tarea)
 
-    if (response.isSuccessful) {
-        Toast.makeText(context, "Tarea insertada con éxito", Toast.LENGTH_SHORT).show()
-    } else {
-        Toast.makeText(context, "Error al insertar la tarea", Toast.LENGTH_SHORT).show()
+        if (response.isSuccessful) {
+            Toast.makeText(context, "Tarea insertada con éxito", Toast.LENGTH_SHORT).show()
+        } else {
+            val errorBody = response.errorBody()?.string()
+            Toast.makeText(context, "Error al insertar la tarea", Toast.LENGTH_SHORT).show()
+            Log.e("InsertTarea", "Error: $errorBody")
+        }
+    }
+    catch (e: Exception){
+        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+        Log.e("InsertTarea", "Excepción: ${e.message}", e)
     }
 }

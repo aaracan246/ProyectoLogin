@@ -30,15 +30,15 @@ fun ThirdBody(navController: NavController) {
 
         Button(
             onClick = { navController.navigate(route = AppScreen.FifthScreen.route) }
-        ) { Text("Completar tarea") }
+        ) { Text("Gestionar tareas") }
 
         Button(
             onClick = { navController.navigate(route = AppScreen.FifthScreen.route) }
         ) { Text("Ver todas las tareas") }
 
-        Button(
-            onClick = { navController.navigate(route = AppScreen.FifthScreen.route) }
-        ) { Text("Borrar una tarea") }
+//        Button(
+//            onClick = { navController.navigate(route = AppScreen.FifthScreen.route) }
+//        ) { Text("Borrar una tarea") }
 
         Button(onClick = { navController.popBackStack() }) {
             Text("Volver a la pantalla anterior")

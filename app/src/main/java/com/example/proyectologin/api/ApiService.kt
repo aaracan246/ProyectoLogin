@@ -7,6 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -22,6 +23,7 @@ interface ApiService {
 
     @POST("/tareas/insert_tarea")
     suspend fun insertTarea(
+        @Header("Authorization") token: String,
         @Body requestBody: Tarea
     ): Response<Tarea>
 
@@ -29,8 +31,12 @@ interface ApiService {
     suspend fun getAllTareas(@Header("Authorization") token: String): Response<List<Tarea>>
 
     @PUT("/tareas/complete_tarea/{id}")
-    suspend fun completeTarea(): Response<Tarea>
+    suspend fun completeTarea(
+        @Header("Authorization") token: String,
+        @Path("id") id: String): Response<Tarea>
 
     @DELETE("/tareas/delete_tarea/{id}")
-    suspend fun deleteTarea(): Response<String>
+    suspend fun deleteTarea(
+        @Header("Authorization") token: String,
+        @Path("id") id: String): Response<Unit>
 }

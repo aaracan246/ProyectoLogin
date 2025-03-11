@@ -91,7 +91,9 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel, login
         Column(modifier = Modifier.padding(6.dp)) {
             OutlinedTextField(
                 value = username,
-                onValueChange = { appViewModel.usernameUpdate(it) },
+                onValueChange = { appViewModel.usernameUpdate(it)
+                                    loginViewModel.usernameUpdate(it)
+                                },
                 label = { Text("Usuario / Email", modifier = Modifier.background(color = Color.Transparent)) },
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -146,6 +148,7 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel, login
                 onClick = {
                     coroutineScope.launch {
                         loginViewModel.login(username, password)
+
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
