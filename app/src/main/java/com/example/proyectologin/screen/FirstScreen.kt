@@ -161,7 +161,7 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel, login
 
 
 
-        }
+
 
         Spacer(Modifier.padding(top = 16.dp))
 
@@ -215,12 +215,13 @@ fun LoginScreen(navControlador: NavController, appViewModel: AppViewModel, login
             Footer()
         }
 
-    LaunchedEffect(token) {
-        if (token.isNotEmpty()) {
-            navControlador.navigate(AppScreen.ThirdScreen.route)
+        LaunchedEffect(token) {
+            if (token.isNotEmpty()) {
+                navControlador.navigate(AppScreen.ThirdScreen.route)
+            }
         }
     }
-    }
+}
 
 
 @Composable
